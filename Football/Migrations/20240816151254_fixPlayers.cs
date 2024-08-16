@@ -5,7 +5,7 @@
 namespace Football.Migrations
 {
     /// <inheritdoc />
-    public partial class addedTables : Migration
+    public partial class fixPlayers : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

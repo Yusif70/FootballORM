@@ -10,7 +10,7 @@ namespace Football.CodeFirst
 		public DbSet<Match> Matches { get; set; }
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer("Server=DESKTOP-MNIP7P0;Database=FootballDB2;integrated Security=true;Encrypt=false");
+			optionsBuilder.UseSqlServer("Server=localhost;Database=FootballDB2;User Id = sa;Password = DB_Password;Trusted_Connection=False;Encrypt=False;MultipleActiveResultSets=true");
 			base.OnConfiguring(optionsBuilder);
 		}
 	}

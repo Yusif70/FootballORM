@@ -21,5 +21,12 @@ namespace Football.Entities
 		public int GoalsFor { get; set; }
 		[DefaultValue(0)]
 		public int GoalsAgainst { get; set; }
+		[NotMapped]
+		[InverseProperty("HomeTeam")]
+		public ICollection<Match> HomeMatches { get; set; }
+		[NotMapped]
+		[InverseProperty("GuestTeam")]
+		public ICollection<Match> AwayMatches { get; set; }
+		public ICollection<Player> Players { get; set; }
 	}
 }
