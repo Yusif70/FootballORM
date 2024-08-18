@@ -15,6 +15,7 @@ namespace Football.Menu
 			"\t2.Player Update\n" +
 			"\t3.Player Remove\n" +
 			"\t4.Get All Players\n" +
+			"\t5.Player Transfer\n" +
 			"\t0.Exit\n";
 		public static void Menu()
 		{
@@ -36,14 +37,14 @@ namespace Football.Menu
 								List<Club> clubs = clubService.GetAll();
 								Console.Write("ad soyad: ");
 								string? fullName = Console.ReadLine()?.Trim();
-								Console.Write("forma nomresi: ");
-								int.TryParse(Console.ReadLine()?.Trim(), out int shirtNumber);
 								foreach (Club club in clubs)
 								{
-									Console.WriteLine($"{club.Id}) {club.Name} qelebe: {club.Wins}, beraberlik: {club.Draws}, meglubiyyet: {club.Losses}");
+									Console.WriteLine($"{club.Id}) {club.Name} xal: {club.Wins * 3 + club.Draws} qelebe: {club.Wins} beraberlik: {club.Draws} meglubiyyet: {club.Losses}");
 								}
 								Console.Write("komanda idsi: ");
 								int.TryParse(Console.ReadLine()?.Trim(), out int clubId);
+								Console.Write("forma nomresi: ");
+								int.TryParse(Console.ReadLine()?.Trim(), out int shirtNumber);
 								clubService.Get(clubId);
 								Player player = new()
 								{
@@ -64,7 +65,7 @@ namespace Football.Menu
 								List<Player> players = playerService.GetAll();
 								foreach (Player player in players)
 								{
-									Console.WriteLine($"{player.Id}) {player.FullName}) {player.ShirtNumber}");
+									Console.WriteLine($"{player.Id}) {player.FullName} {(player.ClubId != null ? $"komanda: {clubService.Get(player.ClubId).Name}" : "")} forma: {player.ShirtNumber} qol: {player.Goals}");
 								}
 								Console.Write("oyuncu idsi: ");
 								int.TryParse(Console.ReadLine()?.Trim(), out int playerId);
@@ -92,7 +93,8 @@ namespace Football.Menu
 								List<Player> players = playerService.GetAll();
 								foreach (Player player in players)
 								{
-									Console.WriteLine($"{player.Id}) {player.FullName}) {player.ShirtNumber}");
+
+									Console.WriteLine($"{player.Id}) {player.FullName} {(player.ClubId != null ? $"komanda: {clubService.Get(player.ClubId).Name}" : "")} forma: {player.ShirtNumber} qol: {player.Goals}");
 								}
 								Console.Write("oyuncu idsi: ");
 								int.TryParse(Console.ReadLine()?.Trim(), out int playerId);
@@ -109,8 +111,34 @@ namespace Football.Menu
 								List<Player> players = playerService.GetAll();
 								foreach (Player player in players)
 								{
-									Console.WriteLine($"{player.Id}) {player.FullName}, qol sayi: {player.Goals}");
+									Console.WriteLine($"{player.Id}) {player.FullName} {(player.ClubId != null ? $"komanda: {clubService.Get(player.ClubId).Name}" : "")} forma: {player.ShirtNumber} qol: {player.Goals}");
 								}
+							}
+							catch (Exception ex)
+							{
+								Console.WriteLine(ex.Message);
+							}
+							break;
+						case 5:
+							try
+							{
+								List<Player> players = playerService.GetAll();
+								foreach (Player player in players)
+								{
+									Console.WriteLine($"{player.Id}) {player.FullName} {(player.ClubId != null ? $"komanda: {clubService.Get(player.ClubId).Name}" : "")} forma: {player.ShirtNumber} qol: {player.Goals}");
+								}
+								Console.Write("oyuncu idsi: ");
+								int.TryParse(Console.ReadLine()?.Trim(), out int playerId);
+								List<Club> clubs = clubService.GetAll();
+								foreach (Club club in clubs)
+								{
+									Console.WriteLine($"{club.Id}) {club.Name} xal: {club.Wins * 3 + club.Draws} qelebe: {club.Wins} beraberlik: {club.Draws} meglubiyyet: {club.Losses}");
+								}
+								Console.Write("komanda idsi: ");
+								int.TryParse(Console.ReadLine()?.Trim(), out int clubId);
+								Console.Write("forma nomresi: ");
+								int.TryParse(Console.ReadLine()?.Trim(), out int shirtNumber);
+								playerService.Transfer(playerId, clubId, shirtNumber);
 							}
 							catch (Exception ex)
 							{

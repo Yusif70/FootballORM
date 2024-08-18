@@ -9,8 +9,7 @@ namespace Football.Menu
 	public class MatchMenu
 	{
 		private static readonly string matchMenu = "\t1.Match Add\n" +
-	"\t2.Match Remove\n" +
-	"\t3.Get All Matches\n" +
+	"\t2.Get All Matches\n" +
 	"\t0.Exit\n";
 		public static void Menu()
 		{
@@ -154,24 +153,7 @@ namespace Football.Menu
 								List<Match> matches = matchService.GetAll();
 								foreach (Match match in matches)
 								{
-									Console.WriteLine($"{match.Id}) hefte: {match.WeekNumber}, {clubService.Get(match.HomeTeamId).Name} {match.HomeTeamGoals} : {match.GuestTeamGoals} {clubService.Get(match.GuestTeamId).Name}");
-								}
-								Console.Write("oyun idsi: ");
-								int.TryParse(Console.ReadLine()?.Trim(), out int matchId);
-								matchService.Delete(matchId);
-							}
-							catch (Exception ex)
-							{
-								Console.WriteLine(ex.Message);
-							}
-							break;
-						case 3:
-							try
-							{
-								List<Match> matches = matchService.GetAll();
-								foreach (Match match in matches)
-								{
-									Console.WriteLine($"{match.Id}) hefte: {match.WeekNumber}, {clubService.Get(match.HomeTeamId).Name} {match.HomeTeamGoals} : {match.GuestTeamGoals} {clubService.Get(match.GuestTeamId).Name}");
+									Console.WriteLine($"{match.Id}) hefte: {match.WeekNumber} {clubService.Get(match.HomeTeamId).Name} {match.HomeTeamGoals}:{match.GuestTeamGoals} {clubService.Get(match.GuestTeamId).Name}");
 								}
 							}
 							catch (Exception ex)

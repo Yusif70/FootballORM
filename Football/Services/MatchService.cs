@@ -12,17 +12,10 @@ namespace Football.Services
 			context.Matches.Add(match);
 			context.SaveChanges();
 		}
-		//public void Update(int id, Match updatedMatch)
-		//{
-		//	Match? match = Get(id);
-		//	match = updatedMatch;
-		//	context.Matches.Update(match);
-		//	context.SaveChanges();
-		//}
-		public void Delete(int id)
+		public void DeleteByClub(int clubId)
 		{
-			Match? match = Get(id);
-			context.Matches.Remove(match!);
+			List<Match> matches = [.. context.Matches.Where(m => m.HomeTeamId == clubId || m.GuestTeamId == clubId)];
+			context.Matches.RemoveRange(matches);
 			context.SaveChanges();
 		}
 		public List<Match> GetAll()

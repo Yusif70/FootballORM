@@ -47,14 +47,12 @@ namespace Football.Migrations
                         name: "FK_Matches_Clubs_GuestTeamId",
                         column: x => x.GuestTeamId,
                         principalTable: "Clubs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Matches_Clubs_HomeTeamId",
                         column: x => x.HomeTeamId,
                         principalTable: "Clubs",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -66,7 +64,7 @@ namespace Football.Migrations
                     ShirtNumber = table.Column<int>(type: "int", nullable: false),
                     FullName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     Goals = table.Column<byte>(type: "tinyint", nullable: false),
-                    ClubId = table.Column<int>(type: "int", nullable: false)
+                    ClubId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,7 +74,7 @@ namespace Football.Migrations
                         column: x => x.ClubId,
                         principalTable: "Clubs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
@@ -90,9 +88,11 @@ namespace Football.Migrations
                 column: "HomeTeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Players_ClubId",
+                name: "IX_Players_ClubId_ShirtNumber",
                 table: "Players",
-                column: "ClubId");
+                columns: new[] { "ClubId", "ShirtNumber" },
+                unique: true,
+                filter: "[ClubId] IS NOT NULL");
         }
 
         /// <inheritdoc />

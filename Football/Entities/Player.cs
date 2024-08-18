@@ -14,7 +14,7 @@ namespace Football.Entities
 		[DefaultValue(0)]
 		[Column(TypeName = "tinyint")]
 		public int Goals { get; set; }
-		public int ClubId { get; set; }
+		public int? ClubId { get; set; }
 		[InverseProperty("Players")]
 		public Club Club { get; set; }
 	}

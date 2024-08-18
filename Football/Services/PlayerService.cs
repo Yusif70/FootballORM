@@ -1,6 +1,7 @@
 ﻿using Football.CodeFirst;
 using Football.Entities;
 using Football.Exceptions.PlayerExceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace Football.Services
 {
@@ -9,8 +10,15 @@ namespace Football.Services
 		private readonly FootballDBContext context = new();
 		public void Add(Player player)
 		{
-			context.Players.Add(player);
-			context.SaveChanges();
+			try
+			{
+				context.Players.Add(player);
+				context.SaveChanges();
+			}
+			catch (DbUpdateException)
+			{
+				throw new DublicateShirtNumberException("eyni formali bir oyuncu artiq movcuddur");
+			}
 		}
 		public void Update(int id, string newFullName)
 		{
@@ -46,7 +54,7 @@ namespace Football.Services
 		}
 		public List<Player> GetByClub(int clubId)
 		{
-			List<Player> players = GetAll().FindAll(player=>player.ClubId == clubId);
+			List<Player> players = GetAll().FindAll(player => player.ClubId == clubId);
 			return players;
 		}
 		public Player Get(int id)
@@ -59,6 +67,31 @@ namespace Football.Services
 			else
 			{
 				throw new PlayerNotFoundException("oyuncu tapilmadi");
+			}
+		}
+		public void Transfer(int playerId, int clubId, int shirtNumber)
+		{
+			Player player = Get(playerId);
+			int? originalClubId = player.ClubId;
+			int originalShirtNumber = player.ShirtNumber;
+			if (player.ClubId != clubId)
+			{
+				try
+				{
+					player.ClubId = clubId;
+					player.ShirtNumber = shirtNumber;
+					context.SaveChanges();
+				}
+				catch (DbUpdateException)
+				{
+					player.ClubId = originalClubId;
+					player.ShirtNumber = originalShirtNumber;
+					throw new DublicateShirtNumberException("eyni formali bir oyuncu artiq movcuddur");
+				}
+			}
+			else
+			{
+				throw new PlayerAlreadyInClubException("oyuncu artiq bu komandadadir");
 			}
 		}
 	}

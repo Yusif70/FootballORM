@@ -48,7 +48,7 @@ namespace Football.Services
 				throw new NoClubsException("sistemde komanda yoxdur");
 			}
 		}
-		public Club Get(int id)
+		public Club Get(int? id)
 		{
 			Club? club = GetAll().Find(club => club.Id == id);
 			if (club != null)

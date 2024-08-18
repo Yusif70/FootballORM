@@ -15,6 +15,7 @@ namespace Football.Menu
 		public static void Menu()
 		{
 			ClubService clubService = new();
+			MatchService matchService = new();
 			bool loop = true;
 			while (loop)
 			{
@@ -50,7 +51,7 @@ namespace Football.Menu
 								List<Club> clubs = clubService.GetAll();
 								foreach (Club club in clubs)
 								{
-									Console.WriteLine($"{club.Id}) {club.Name} qelebe: {club.Wins}, beraberlik: {club.Draws}, meglubiyyet: {club.Losses}");
+									Console.WriteLine($"{club.Id}) {club.Name} xal: {club.Wins * 3 + club.Draws} qelebe: {club.Wins} beraberlik: {club.Draws} meglubiyyet: {club.Losses}");
 								}
 								Console.Write("komanda idsi: ");
 								int.TryParse(Console.ReadLine()?.Trim(), out int clubId);
@@ -74,10 +75,11 @@ namespace Football.Menu
 								List<Club> clubs = clubService.GetAll();
 								foreach (Club club in clubs)
 								{
-									Console.WriteLine($"{club.Id})  {club.Name}  qelebe:  {club.Wins} , beraberlik:  {club.Draws} , meglubiyyet: {club.Losses}");
+									Console.WriteLine($"{club.Id}) {club.Name} xal: {club.Wins * 3 + club.Draws} qelebe: {club.Wins} beraberlik: {club.Draws} meglubiyyet: {club.Losses}");
 								}
 								Console.Write("komanda idsi: ");
 								int.TryParse(Console.ReadLine()?.Trim(), out int clubId);
+								matchService.DeleteByClub(clubId);
 								clubService.Delete(clubId);
 							}
 							catch (Exception ex)
@@ -91,7 +93,7 @@ namespace Football.Menu
 								List<Club> clubs = clubService.GetAll();
 								foreach (Club club in clubs)
 								{
-									Console.WriteLine($"{club.Id}) {club.Name} qelebe: {club.Wins}, beraberlik: {club.Draws}, meglubiyyet: {club.Losses}");
+									Console.WriteLine($"{club.Id}) {club.Name} xal: {club.Wins * 3 + club.Draws} qelebe: {club.Wins} beraberlik: {club.Draws} meglubiyyet: {club.Losses}");
 								}
 							}
 							catch (NoClubsException ex)
